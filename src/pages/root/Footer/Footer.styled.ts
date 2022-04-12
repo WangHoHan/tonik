@@ -5,7 +5,7 @@ export const FooterStyled = styled.footer`
   background-color: yellow;
   bottom: 0;
   display: flex;
-  height: 2rem;
+  height: 3rem;
   justify-content: center;
   position: absolute;
   width: 100%;
@@ -13,4 +13,5 @@ export const FooterStyled = styled.footer`
 
 export const AddressStyled = styled.address`
     font-weight: lighter;
+  text-align: center;
 `;
