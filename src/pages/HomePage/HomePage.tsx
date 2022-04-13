@@ -1,18 +1,18 @@
-import React, {Dispatch} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {HomePageWrapper} from './HomePage.styled';
+import React from 'react';
+import {useSelector} from 'react-redux';
 import {selectRepositories} from '../../store/data/repositories/selectors';
-import {RepositoriesInformation} from "../../intrafaces/RepositoriesInformation";
+import {RepositoriesInformation} from '../../intrafaces/RepositoriesInformation';
+import Table from '../../shared/components/organisms/Table/Table';
 
 const HomePage: React.FC = (): JSX.Element => {
-    const dispatch: Dispatch<any> = useDispatch();
     const repositories: any = useSelector(selectRepositories);
 
     return (
-        <>
-            {repositories.elements.map((repository: RepositoriesInformation) => {
-                console.log(repository)
-            })};
-        </>
+        <HomePageWrapper>
+            <Table headers={['Name', 'Owner', 'Stars', 'Created at']}
+                   bodies={repositories.elements.map((element: RepositoriesInformation) => [element.name, element.owner, element.stars, element.createdAt])}/>
+        </HomePageWrapper>
     );
 };
 

@@ -12,6 +12,6 @@ export const FooterStyled = styled.footer`
 `;
 
 export const AddressStyled = styled.address`
-    font-weight: lighter;
+  font-weight: lighter;
   text-align: center;
 `;
