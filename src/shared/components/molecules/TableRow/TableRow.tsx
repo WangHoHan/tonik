@@ -22,8 +22,11 @@ const TableRow: React.FC<TableRowParams> = ({type, rowIndex, cells}: TableRowPar
     };
 
     const calculateWidth = (cellsNumber: number): string => {
-        const width: string = 100 / cellsNumber + '%';
-        return width;
+        if (cellsNumber > 0) {
+            const width: string = 100 / cellsNumber + '%';
+            return width;
+        }
+        return '100%';
     };
 
     return (
