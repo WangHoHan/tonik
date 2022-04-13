@@ -1,9 +1,9 @@
 import {CombinedState, combineReducers, Reducer} from 'redux';
-import {FEATURE_SEARCH_BAR_NAME} from './constants';
-import searchBarReducer from './data/searchbar/reducers';
+import {FEATURE_REPOSITORIES_NAME} from './constants';
+import repositoriesReducer from './data/repositories/reducers';
 
 const reducers: Reducer<CombinedState<{ [p: string]: any }>> = combineReducers({
-    [FEATURE_SEARCH_BAR_NAME]: searchBarReducer
+    [FEATURE_REPOSITORIES_NAME]: repositoriesReducer
 });
 
 export default reducers;

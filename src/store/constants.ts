@@ -1,1 +1,1 @@
-export const FEATURE_SEARCH_BAR_NAME: string = 'search bar';
+export const FEATURE_REPOSITORIES_NAME: string = 'repositories';

@@ -1,15 +1,17 @@
 import {HeaderStyled, NavStyled, SearchBar} from './Navigation.styled';
-import React, {Dispatch} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {selectSearchBar} from '../../../store/data/searchbar/selectors';
-import {setSearchBarInput} from "../../../store/data/searchbar/actions";
+import React, {Dispatch, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {fetchRepositoriesRequest} from '../../../store/data/repositories/actions';
 
 const Navigation: React.FC = (): JSX.Element => {
     const dispatch: Dispatch<any> = useDispatch();
-    const searchBar: any = useSelector(selectSearchBar);
+
+    const [input, setInput] = useState<string>('');
 
     const handleSearchBarOnInput = (e: any): void => {
-        dispatch(setSearchBarInput(e.target.value));
+        const word: string = e.target.value;
+        setInput(word);
+        dispatch(fetchRepositoriesRequest(word));
     };
 
     return (
@@ -20,7 +22,7 @@ const Navigation: React.FC = (): JSX.Element => {
                            onFocus={(e: any) => e.target.placeholder = ''}
                            onBlur={(e: any) => e.target.placeholder = 'Search for GitHub repositories'}
                            onInput={handleSearchBarOnInput}
-                           value={searchBar.input}/>
+                           value={input}/>
             </NavStyled>
         </HeaderStyled>
     );

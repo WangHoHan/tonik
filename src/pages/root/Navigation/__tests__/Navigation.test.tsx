@@ -36,7 +36,7 @@ describe('Navigation', (): void => {
     it('should be able to type in input', (): void => {
         render(<MockNavigation/>);
         const searchBarInput: HTMLElement = screen.getByPlaceholderText(/search for gitHub repositories/i);
-        fireEvent.input(searchBarInput, {target: {value: 'Tonik'}});
-        expect(searchBarInput).toHaveDisplayValue('Tonik');
+        fireEvent.input(searchBarInput, {target: {value: 'tonik'}});
+        expect(searchBarInput).toHaveDisplayValue('tonik');
     });
 });
