@@ -6,14 +6,14 @@ import {GITHUB_SEARCH_REPOSITORIES_URL} from '../../constants/endpoints';
 import {RepositoriesQueryParams} from '../../intrafaces/RepositoriesQueryParams';
 import {createRepositoriesSearchQuery} from '../../utils/githubQueryCreator';
 import {RepositoriesInformation} from '../../intrafaces/RepositoriesInformation';
-import {readFromCache, writeToCache} from '../../utils/cache';
+import {readFromCache, removeFromCache, writeToCache} from '../../utils/cache';
 
-function fetchRepositories(options: { url: string }): Promise<any> {
+const fetchRepositories = (options: { url: string }): Promise<any> => {
     return axios.request({
         method: 'GET',
         url: options.url
     });
-}
+};
 
 export function* repositoriesWatcher(): Generator<ForkEffect<never>, void> {
     yield takeEvery(actionTypes.GET_REPOSITORIES, repositoriesWorker);
@@ -23,15 +23,23 @@ function* repositoriesWorker(payload: AnyAction): Generator<CallEffect<any> | Pu
     const repositoriesQueryParams: RepositoriesQueryParams = payload.payload;
     const query: string = createRepositoriesSearchQuery(repositoriesQueryParams);
     if (query) {
+        let isCached: boolean = false;
         const url: string = GITHUB_SEARCH_REPOSITORIES_URL + query;
         const repositoriesCache: string | null = readFromCache(url);
         if (repositoriesCache) {
-            const elements: RepositoriesInformation[] = JSON.parse(repositoriesCache);
-            yield put({
-                type: actionTypes.SET_REPOSITORIES,
-                payload: elements
-            });
-        } else {
+            try {
+                const elements: RepositoriesInformation[] = JSON.parse(repositoriesCache);
+                yield put({
+                    type: actionTypes.SET_REPOSITORIES,
+                    payload: elements
+                });
+                isCached = true;
+            } catch (error: any) {
+                removeFromCache(url);
+                isCached = false;
+            }
+        }
+        if (!isCached) {
             try {
                 const response: any = yield call(fetchRepositories, {url});
                 const repositories: [] = response.data.items;
