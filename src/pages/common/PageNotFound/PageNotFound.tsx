@@ -1,8 +1,13 @@
 import {PageNotFoundWrapper, PictureWrapper, ImageStyled, BackToHomePageWrapper, BackToHomePage} from './PageNotFound.styled';
-import React from 'react';
+import React, {useEffect} from 'react';
 import PageNotFoundImage from '../../../assets/images/pagenotfound.webp'
 
 const PageNotFound: React.FC = (): JSX.Element => {
+    useEffect((): void => {
+        const searchBar: any = document.getElementById('search-bar');
+        searchBar.disabled = true;
+    }, []);
+
     return (
       <PageNotFoundWrapper>
           <PictureWrapper>

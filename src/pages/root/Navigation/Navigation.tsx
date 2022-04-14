@@ -26,7 +26,8 @@ const Navigation: React.FC = (): JSX.Element => {
     return (
         <HeaderStyled>
             <NavStyled>
-                <SearchBar type='text'
+                <SearchBar id='search-bar'
+                           type='text'
                            placeholder='Search for GitHub repositories'
                            onFocus={(e: any) => e.target.placeholder = ''}
                            onBlur={(e: any) => e.target.placeholder = 'Search for GitHub repositories'}

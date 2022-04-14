@@ -1,5 +1,5 @@
 import {HomePageWrapper} from './HomePage.styled';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {selectLoading} from '../../store/data/loading/selectors';
 import {selectRepositories} from '../../store/data/repositories/selectors';
@@ -10,6 +10,11 @@ import LoadingElement from '../../shared/components/atoms/LoadingElement/Loading
 const HomePage: React.FC = (): JSX.Element => {
     const loading: any = useSelector(selectLoading);
     const repositories: any = useSelector(selectRepositories);
+
+    useEffect((): void => {
+        const searchBar: any = document.getElementById('search-bar');
+        searchBar.disabled = false;
+    }, []);
 
     return (
         <HomePageWrapper>
