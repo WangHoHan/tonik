@@ -1,4 +1,5 @@
 import {FEATURE_REPOSITORIES_NAME} from '../../constants';
+import {RepositoriesQueryParams} from '../../../intrafaces/RepositoriesQueryParams';
 import {RepositoriesInformation} from '../../../intrafaces/RepositoriesInformation';
 
 export const actionTypes: { FETCH_REPOSITORIES_REQUEST: string, FETCH_REPOSITORIES_SUCCESS: string, FETCH_REPOSITORIES_FAIL: string } = {
@@ -7,7 +8,7 @@ export const actionTypes: { FETCH_REPOSITORIES_REQUEST: string, FETCH_REPOSITORI
     FETCH_REPOSITORIES_FAIL: `[${FEATURE_REPOSITORIES_NAME}] fetch repositories fail`
 };
 
-export const fetchRepositoriesRequest = (payload: string): { payload: string, type: string } => ({
+export const fetchRepositoriesRequest = (payload: RepositoriesQueryParams): { payload: RepositoriesQueryParams, type: string } => ({
     type: actionTypes.FETCH_REPOSITORIES_REQUEST,
     payload
 });

@@ -11,7 +11,15 @@ const Navigation: React.FC = (): JSX.Element => {
     const handleSearchBarOnInput = (e: any): void => {
         const word: string = e.target.value;
         setInput(word);
-        dispatch(fetchRepositoriesRequest(word));
+        if (word) {
+            dispatch(fetchRepositoriesRequest({
+                q: word,
+                sort: 'stars',
+                order: 'asc',
+                perPage: 30,
+                page: 1
+            }));
+        }
     };
 
     return (
