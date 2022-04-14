@@ -1,7 +1,8 @@
 import {call, CallEffect, ForkEffect, put, PutEffect, takeEvery} from 'redux-saga/effects';
 import {AnyAction} from 'redux';
 import axios from 'axios';
-import {actionTypes} from '../data/repositories/actions';
+import {actionTypes as loadingActionTypes} from '../data/loading/actions';
+import {actionTypes as repositoriesActionTypes} from '../data/repositories/actions';
 import {GITHUB_SEARCH_REPOSITORIES_URL} from '../../constants/endpoints';
 import {RepositoriesQueryParams} from '../../intrafaces/RepositoriesQueryParams';
 import {createRepositoriesSearchQuery} from '../../utils/githubQueryCreator';
@@ -16,7 +17,7 @@ const fetchRepositories = (options: { url: string }): Promise<any> => {
 };
 
 export function* repositoriesWatcher(): Generator<ForkEffect<never>, void> {
-    yield takeEvery(actionTypes.GET_REPOSITORIES, repositoriesWorker);
+    yield takeEvery(repositoriesActionTypes.GET_REPOSITORIES, repositoriesWorker);
 }
 
 function* repositoriesWorker(payload: AnyAction): Generator<CallEffect<any> | PutEffect<{ type: string, payload: any }>, void, any> {
@@ -30,7 +31,7 @@ function* repositoriesWorker(payload: AnyAction): Generator<CallEffect<any> | Pu
             try {
                 const elements: RepositoriesInformation[] = JSON.parse(repositoriesCache);
                 yield put({
-                    type: actionTypes.SET_REPOSITORIES,
+                    type: repositoriesActionTypes.SET_REPOSITORIES,
                     payload: elements
                 });
                 isCached = true;
@@ -40,6 +41,10 @@ function* repositoriesWorker(payload: AnyAction): Generator<CallEffect<any> | Pu
             }
         }
         if (!isCached) {
+            yield put({
+                type: loadingActionTypes.SET_LOADING,
+                payload: true
+            });
             try {
                 const response: any = yield call(fetchRepositories, {url});
                 const repositories: [] = response.data.items;
@@ -53,14 +58,22 @@ function* repositoriesWorker(payload: AnyAction): Generator<CallEffect<any> | Pu
                     return element;
                 });
                 yield put({
-                    type: actionTypes.SET_REPOSITORIES,
+                    type: repositoriesActionTypes.SET_REPOSITORIES,
                     payload: elements
                 });
                 writeToCache(url, elements);
+                yield put({
+                    type: loadingActionTypes.SET_LOADING,
+                    payload: false
+                });
             } catch (error: any) {
                 yield put({
-                    type: actionTypes.GET_REPOSITORIES_FAIL,
+                    type: repositoriesActionTypes.GET_REPOSITORIES_FAIL,
                     payload: error.message
+                });
+                yield put({
+                    type: loadingActionTypes.SET_LOADING,
+                    payload: false
                 });
             }
         }
