@@ -1,31 +1,22 @@
 import {actionTypes} from './actions';
 import {RepositoriesInformation} from '../../../intrafaces/RepositoriesInformation';
 
-const initState: { word: string, elements: RepositoriesInformation[], fetching: boolean, error: null } = {
-    word: '',
+const initState: { elements: RepositoriesInformation[], error: null } = {
     elements: [],
-    fetching: false,
     error: null
 };
 
-const reducer = (state: { word: string, elements: RepositoriesInformation[], fetching: boolean, error: null } = initState, action: any): { elements: RepositoriesInformation[], fetching: boolean, error: null, word: any } | { elements: any, fetching: boolean, error: null, word: string } | { elements: RepositoriesInformation[], fetching: boolean, error: any, word: string } => {
+const reducer = (state: { elements: RepositoriesInformation[], error: null } = initState, action: any): {elements: RepositoriesInformation[], error: any} => {
     switch (action.type) {
-        case actionTypes.FETCH_REPOSITORIES_REQUEST:
+        case actionTypes.SET_REPOSITORIES:
             return {
                 ...state,
-                fetching: true,
-                word: action.payload
+                elements: action.payload,
+                error: null
             };
-        case actionTypes.FETCH_REPOSITORIES_SUCCESS:
+        case actionTypes.GET_REPOSITORIES_FAIL:
             return {
                 ...state,
-                fetching: false,
-                elements: action.payload
-            };
-        case actionTypes.FETCH_REPOSITORIES_FAIL:
-            return {
-                ...state,
-                fetching: false,
                 error: action.payload
             };
         default:

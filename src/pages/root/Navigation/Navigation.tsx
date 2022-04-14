@@ -1,7 +1,7 @@
 import {HeaderStyled, NavStyled, SearchBar} from './Navigation.styled';
 import React, {Dispatch, useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {fetchRepositoriesRequest} from '../../../store/data/repositories/actions';
+import {getRepositories} from '../../../store/data/repositories/actions';
 
 const Navigation: React.FC = (): JSX.Element => {
     const dispatch: Dispatch<any> = useDispatch();
@@ -12,7 +12,7 @@ const Navigation: React.FC = (): JSX.Element => {
         const word: string = e.target.value;
         setInput(word);
         if (word) {
-            dispatch(fetchRepositoriesRequest({
+            dispatch(getRepositories({
                 q: word,
                 sort: 'stars',
                 order: 'asc',

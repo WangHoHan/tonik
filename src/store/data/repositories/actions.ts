@@ -2,23 +2,23 @@ import {FEATURE_REPOSITORIES_NAME} from '../../constants';
 import {RepositoriesQueryParams} from '../../../intrafaces/RepositoriesQueryParams';
 import {RepositoriesInformation} from '../../../intrafaces/RepositoriesInformation';
 
-export const actionTypes: { FETCH_REPOSITORIES_REQUEST: string, FETCH_REPOSITORIES_SUCCESS: string, FETCH_REPOSITORIES_FAIL: string } = {
-    FETCH_REPOSITORIES_REQUEST: `[${FEATURE_REPOSITORIES_NAME}] fetch repositories request`,
-    FETCH_REPOSITORIES_SUCCESS: `[${FEATURE_REPOSITORIES_NAME}] fetch repositories success`,
-    FETCH_REPOSITORIES_FAIL: `[${FEATURE_REPOSITORIES_NAME}] fetch repositories fail`
+export const actionTypes: { GET_REPOSITORIES: string, SET_REPOSITORIES: string, GET_REPOSITORIES_FAIL: string } = {
+    GET_REPOSITORIES: `[${FEATURE_REPOSITORIES_NAME}] get repositories`,
+    SET_REPOSITORIES: `[${FEATURE_REPOSITORIES_NAME}] set repositories`,
+    GET_REPOSITORIES_FAIL: `[${FEATURE_REPOSITORIES_NAME}] get repositories fail`
 };
 
-export const fetchRepositoriesRequest = (payload: RepositoriesQueryParams): { payload: RepositoriesQueryParams, type: string } => ({
-    type: actionTypes.FETCH_REPOSITORIES_REQUEST,
+export const getRepositories = (payload: RepositoriesQueryParams): { payload: RepositoriesQueryParams, type: string } => ({
+    type: actionTypes.GET_REPOSITORIES,
     payload
 });
 
-export const fetchRepositoriesSuccess = (payload: RepositoriesInformation[]): { payload: RepositoriesInformation[], type: string } => ({
-    type: actionTypes.FETCH_REPOSITORIES_SUCCESS,
+export const setRepositories = (payload: RepositoriesInformation[]): { payload: RepositoriesInformation[], type: string } => ({
+    type: actionTypes.SET_REPOSITORIES,
     payload
 });
 
-export const fetchRepositoriesFail = (payload: string): { payload: string, type: string } => ({
-    type: actionTypes.FETCH_REPOSITORIES_REQUEST,
+export const getRepositoriesFail = (payload: string): { payload: string, type: string } => ({
+    type: actionTypes.GET_REPOSITORIES_FAIL,
     payload
 });
