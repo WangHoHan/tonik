@@ -1,27 +1,23 @@
 import {HeaderStyled, NavStyled, SearchBar} from './Navigation.styled';
-import React, {Dispatch, useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
-import {getRepositories} from '../../../store/data/repositories/actions';
+import React, {Dispatch, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectRepositories} from '../../../store/data/repositories/selectors';
+import {setQParam, getRepositories, setPageParam} from '../../../store/data/repositories/actions';
 
 const Navigation: React.FC = (): JSX.Element => {
     const dispatch: Dispatch<any> = useDispatch();
-
-    const [input, setInput] = useState<string>('');
+    const repositories: any = useSelector(selectRepositories);
 
     useEffect((): () => void => {
         const delayDebounceFn: NodeJS.Timeout = setTimeout((): any => {
-            if (input) {
-                dispatch(getRepositories({
-                    q: input,
-                    sort: 'stars',
-                    order: 'asc',
-                    perPage: 30,
-                    page: 1
-                }));
+            if (repositories.queryParams.q) {
+                const page: number = 1;
+                dispatch(getRepositories({...repositories.queryParams, page}));
+                dispatch(setPageParam(page));
             }
         }, 400);
         return (): void => clearTimeout(delayDebounceFn);
-    }, [dispatch, input]);
+    }, [dispatch, repositories.queryParams.q]);
 
     return (
         <HeaderStyled>
@@ -31,8 +27,8 @@ const Navigation: React.FC = (): JSX.Element => {
                            placeholder='Search for GitHub repositories'
                            onFocus={(e: any) => e.target.placeholder = ''}
                            onBlur={(e: any) => e.target.placeholder = 'Search for GitHub repositories'}
-                           onInput={(e: any) => setInput(e.target.value)}
-                           value={input}/>
+                           onInput={(e: any) => dispatch(setQParam(e.target.value))}
+                           value={repositories.queryParams.q}/>
             </NavStyled>
         </HeaderStyled>
     );

@@ -1,6 +1,6 @@
 import {TRStyled} from './TableRow.styled';
-import React from 'react';
 import {TableRowType} from '../../../../constants/enums';
+import React from 'react';
 import BodyCell from '../../atoms/BodyCell/BodyCell';
 import HeaderCell from '../../atoms/HeaderCell/HeaderCell';
 
@@ -32,7 +32,7 @@ const TableRow: React.FC<TableRowParams> = ({type, rowIndex, cells}: TableRowPar
     return (
         <>
             {(type === TableRowType.HEADER) ?
-                <TRStyled backgroundColor = 'yellow'>
+                <TRStyled backgroundColor = '#DCD2FE'>
                     {cells.map((cell: string, index: number) => {
                         return <HeaderCell key={index} text={cell}/>
                     })}
