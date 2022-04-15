@@ -16,6 +16,11 @@ const initState: { elements: RepositoriesInformation[], queryParams: Repositorie
 
 const reducer = (state: { elements: RepositoriesInformation[], queryParams: RepositoriesQueryParams, error: null } = initState, action: any): { queryParams: RepositoriesQueryParams, elements: any, error: null } | { queryParams: RepositoriesQueryParams, elements: RepositoriesInformation[], error: any } => {
     switch (action.type) {
+        case actionTypes.SET_REPOSITORIES_QUERY_PARAMS:
+            return {
+                ...state,
+                queryParams: action.payload
+            };
         case actionTypes.SET_Q_PARAM:
             return {
                 ...state,

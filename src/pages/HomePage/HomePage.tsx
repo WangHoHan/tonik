@@ -2,21 +2,22 @@ import {HomePageWrapper} from './HomePage.styled';
 import React, {useEffect} from 'react';
 import {Dispatch} from 'redux';
 import {useDispatch, useSelector} from 'react-redux';
-import {selectLoading} from '../../store/data/loading/selectors';
-import {selectRepositories} from '../../store/data/repositories/selectors';
-import {getRepositories, setPageParam} from '../../store/data/repositories/actions';
+import {selectIsLoading} from '../../store/data/loading/selectors';
+import {selectRepositoriesState} from '../../store/data/repositories/selectors';
+import {initRepositories, getRepositories, setPageParam} from '../../store/data/repositories/actions';
 import {RepositoriesInformation} from '../../intrafaces/RepositoriesInformation';
 import LoadingElement from '../../shared/components/atoms/LoadingElement/LoadingElement';
 import Table from '../../shared/components/organisms/Table/Table';
 
 const HomePage: React.FC = (): JSX.Element => {
     const dispatch: Dispatch = useDispatch();
-    const loading: any = useSelector(selectLoading);
-    const repositories: any = useSelector(selectRepositories);
+    const isLoading: boolean = useSelector(selectIsLoading);
+    const repositories: any = useSelector(selectRepositoriesState);
 
     useEffect((): void => {
         const searchBar: any = document.getElementById('search-bar');
         searchBar.disabled = false;
+        dispatch(initRepositories());
     }, []);
 
     const handlePreviousPage = (): void => {
@@ -35,7 +36,7 @@ const HomePage: React.FC = (): JSX.Element => {
 
     return (
         <HomePageWrapper>
-            {loading.isLoading ?
+            {isLoading ?
                 <LoadingElement/> :
                 <>
                     <Table headers={['Name', 'Owner', 'Stars', 'Created at']}

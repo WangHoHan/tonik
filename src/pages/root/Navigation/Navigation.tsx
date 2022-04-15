@@ -1,12 +1,12 @@
 import {HeaderStyled, NavStyled, SearchBar} from './Navigation.styled';
 import React, {Dispatch, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {selectRepositories} from '../../../store/data/repositories/selectors';
+import {selectRepositoriesState} from '../../../store/data/repositories/selectors';
 import {setQParam, getRepositories, setPageParam} from '../../../store/data/repositories/actions';
 
 const Navigation: React.FC = (): JSX.Element => {
     const dispatch: Dispatch<any> = useDispatch();
-    const repositories: any = useSelector(selectRepositories);
+    const repositories: any = useSelector(selectRepositoriesState);
 
     useEffect((): () => void => {
         const delayDebounceFn: NodeJS.Timeout = setTimeout((): any => {

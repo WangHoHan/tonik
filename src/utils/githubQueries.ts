@@ -6,3 +6,8 @@ export const createRepositoriesSearchQuery = (repositoriesQueryParams: Repositor
     }
     return '';
 };
+
+//TODO
+export const getRepositoriesQueryParamsFromUrl = (url: string): RepositoriesQueryParams => {
+    return {q: 'tonik', sort: 'stars', order: 'desc', perPage: 30, page: 1};
+};

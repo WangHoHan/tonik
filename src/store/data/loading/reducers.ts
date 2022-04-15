@@ -6,7 +6,7 @@ const initState: { isLoading: boolean } = {
 
 const reducer = (state: { isLoading: boolean } = initState, action: any): { isLoading: boolean } => {
     switch (action.type) {
-        case actionTypes.SET_LOADING:
+        case actionTypes.SET_IS_LOADING:
             return {
                 ...state,
                 isLoading: action.payload

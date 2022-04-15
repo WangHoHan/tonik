@@ -1,6 +1,6 @@
 export interface RepositoriesInformation {
     name: string,
     owner: string,
-    stars: number,
+    stars: number | string,
     createdAt: string
 }

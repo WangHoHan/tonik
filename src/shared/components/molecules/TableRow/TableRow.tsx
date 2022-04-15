@@ -15,10 +15,10 @@ const TableRow: React.FC<TableRowParams> = ({type, rowIndex, cells}: TableRowPar
     const checkColor = (index: number | null): string => {
         if (index !== null) {
             if (index % 2 !== 0) {
-                return '#F7F7F7';
+                return 'white';
             }
         }
-        return 'white';
+        return '#F7F7F7';
     };
 
     const calculateWidth = (cellsNumber: number): string => {

@@ -2,4 +2,4 @@ export const readFromCache = (key: string): string | null => localStorage.getIte
 
 export const removeFromCache = (key: string): void => localStorage.removeItem(key);
 
-export const writeToCache = (key: string, data: any): void => localStorage.setItem(key, JSON.stringify(data));
+export const writeToCache = (key: string, data: string): void => localStorage.setItem(key, data);
