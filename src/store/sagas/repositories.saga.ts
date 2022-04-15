@@ -20,7 +20,7 @@ export function* repositoriesWatcher(): Generator<ForkEffect<never>, void> {
     yield takeEvery(repositoriesActionTypes.GET_REPOSITORIES, repositoriesWorker);
 }
 
-function* repositoriesWorker(payload: AnyAction): Generator<CallEffect<any> | PutEffect<{ type: string, payload: any }>, void, any> {
+function* repositoriesWorker(payload: AnyAction): Generator<CallEffect | PutEffect<{ type: string, payload: any }>, void, any> {
     const repositoriesQueryParams: RepositoriesQueryParams = payload.payload;
     const query: string = createRepositoriesSearchQuery(repositoriesQueryParams);
     if (query) {
