@@ -3,7 +3,7 @@ import {AnyAction} from 'redux';
 import axios from 'axios';
 import {actionTypes as loadingActionTypes} from '../data/loading/actions';
 import {actionTypes as repositoriesActionTypes} from '../data/repositories/actions';
-import {GITHUB_SEARCH_REPOSITORIES_URL} from '../../constants/endpoints';
+import {GITHUB_SEARCH_REPOSITORIES_INIT_URL, GITHUB_SEARCH_REPOSITORIES_URL} from '../../constants/endpoints';
 import {LATEST_REPOSITORIES_REQUEST} from '../../constants/localStorageKeys';
 import {RepositoriesQueryParams} from '../../intrafaces/RepositoriesQueryParams';
 import {createRepositoriesSearchQuery, getRepositoriesQueryParamsFromUrl} from '../../utils/githubQueries';
@@ -31,15 +31,15 @@ function* initRepositoriesWorker(props: AnyAction): Generator<CallEffect | PutEf
         const repositoriesCache: string | null = readFromCache(latestUrl);
         if (repositoriesCache) {
             try {
-                const elements: RepositoriesInformation[] = JSON.parse(repositoriesCache);
-                yield put({
-                    type: repositoriesActionTypes.SET_REPOSITORIES,
-                    payload: elements
-                });
                 const repositoriesQueryParams: RepositoriesQueryParams = getRepositoriesQueryParamsFromUrl(latestUrl);
                 yield put({
                     type: repositoriesActionTypes.SET_REPOSITORIES_QUERY_PARAMS,
                     payload: repositoriesQueryParams
+                });
+                const elements: RepositoriesInformation[] = JSON.parse(repositoriesCache);
+                yield put({
+                    type: repositoriesActionTypes.SET_REPOSITORIES,
+                    payload: elements
                 });
                 isCached = true;
             } catch (error: any) {
@@ -50,7 +50,44 @@ function* initRepositoriesWorker(props: AnyAction): Generator<CallEffect | PutEf
         }
     }
     if (!isCached) {
-        //TODO sample fetch
+        yield put({
+            type: loadingActionTypes.SET_IS_LOADING,
+            payload: true
+        });
+        try {
+            const url: string = GITHUB_SEARCH_REPOSITORIES_INIT_URL;
+            const response: any = yield call(fetchRepositories, {url});
+            const repositories: [] = response.data.items;
+            const elements: RepositoriesInformation[] = repositories.map((repositoriesDataItem: any) => {
+                const element: RepositoriesInformation = {
+                    name: repositoriesDataItem.full_name,
+                    owner: repositoriesDataItem.owner.login,
+                    stars: repositoriesDataItem.stargazers_count,
+                    createdAt: repositoriesDataItem.created_at.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])/)[0]
+                }
+                return element;
+            });
+            const repositoriesQueryParams: RepositoriesQueryParams = getRepositoriesQueryParamsFromUrl(url);
+            yield put({
+                type: repositoriesActionTypes.SET_REPOSITORIES_QUERY_PARAMS,
+                payload: repositoriesQueryParams
+            });
+            yield put({
+                type: repositoriesActionTypes.SET_REPOSITORIES,
+                payload: elements
+            });
+            writeToCache(url, JSON.stringify(elements));
+            writeToCache(LATEST_REPOSITORIES_REQUEST, url);
+        } catch (error: any) {
+            yield put({
+                type: repositoriesActionTypes.GET_REPOSITORIES_FAIL,
+                payload: error.message
+            });
+        }
+        yield put({
+            type: loadingActionTypes.SET_IS_LOADING,
+            payload: false
+        });
     }
 }
 
@@ -98,20 +135,16 @@ function* repositoriesWorker(props: AnyAction): Generator<CallEffect | PutEffect
                 });
                 writeToCache(url, JSON.stringify(elements));
                 writeToCache(LATEST_REPOSITORIES_REQUEST, url);
-                yield put({
-                    type: loadingActionTypes.SET_IS_LOADING,
-                    payload: false
-                });
             } catch (error: any) {
                 yield put({
                     type: repositoriesActionTypes.GET_REPOSITORIES_FAIL,
                     payload: error.message
                 });
-                yield put({
-                    type: loadingActionTypes.SET_IS_LOADING,
-                    payload: false
-                });
             }
+            yield put({
+                type: loadingActionTypes.SET_IS_LOADING,
+                payload: false
+            });
         }
     }
 }

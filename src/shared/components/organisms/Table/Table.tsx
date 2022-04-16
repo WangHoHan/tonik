@@ -8,12 +8,11 @@ interface TableProps {
     headers: string[],
     bodies: string[][],
     currentPage: number,
-    perPage: number,
     previousPage: Function,
     nextPage: Function
 }
 
-const Table: React.FC<TableProps> = ({headers, bodies, currentPage, perPage, previousPage, nextPage}: TableProps): JSX.Element => {
+const Table: React.FC<TableProps> = ({headers, bodies, currentPage, previousPage, nextPage}: TableProps): JSX.Element => {
     return (
         <>
             <TableStyled>

@@ -42,7 +42,6 @@ const HomePage: React.FC = (): JSX.Element => {
                     <Table headers={['Name', 'Owner', 'Stars', 'Created at']}
                            bodies={repositories.elements.map((element: RepositoriesInformation) => [element.name, element.owner, element.stars, element.createdAt])}
                            currentPage={repositories.queryParams.page}
-                           perPage={repositories.queryParams.perPage}
                            previousPage={handlePreviousPage}
                            nextPage={handleNextPage}/>
                 </>
