@@ -1,5 +1,5 @@
 import {HeaderStyled, NavStyled, SearchBar} from './Navigation.styled';
-import React, {Dispatch, useEffect} from 'react';
+import React, {Dispatch, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectRepositoriesState} from '../../../store/data/repositories/selectors';
 import {setQParam, getRepositories, setPageParam} from '../../../store/data/repositories/actions';
@@ -8,9 +8,11 @@ const Navigation: React.FC = (): JSX.Element => {
     const dispatch: Dispatch<any> = useDispatch();
     const repositories: any = useSelector(selectRepositoriesState);
 
+    const [searchBarInput, setSearchBarInput] = useState<string>('');
+
     useEffect((): () => void => {
         const delayDebounceFn: NodeJS.Timeout = setTimeout((): any => {
-            if (repositories.queryParams.q) {
+            if (searchBarInput) {
                 const page: number = 1;
                 dispatch(getRepositories({...repositories.queryParams, page}));
                 dispatch(setPageParam(page));
@@ -18,6 +20,11 @@ const Navigation: React.FC = (): JSX.Element => {
         }, 400);
         return (): void => clearTimeout(delayDebounceFn);
     }, [dispatch, repositories.queryParams.q]);
+
+    const handleOnInput = (input: string): void => {
+        setSearchBarInput(input);
+        dispatch(setQParam(input));
+    };
 
     return (
         <HeaderStyled>
@@ -27,8 +34,8 @@ const Navigation: React.FC = (): JSX.Element => {
                            placeholder='Search for GitHub repositories'
                            onFocus={(e: any) => e.target.placeholder = ''}
                            onBlur={(e: any) => e.target.placeholder = 'Search for GitHub repositories'}
-                           onInput={(e: any) => dispatch(setQParam(e.target.value))}
-                           value={repositories.queryParams.q}/>
+                           onInput={(e: any) => handleOnInput(e.target.value)}
+                           value={searchBarInput}/>
             </NavStyled>
         </HeaderStyled>
     );
