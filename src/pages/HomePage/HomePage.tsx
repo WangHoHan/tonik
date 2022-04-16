@@ -20,16 +20,25 @@ const HomePage: React.FC = (): JSX.Element => {
         dispatch(initRepositories());
     }, []);
 
+    const checkIfPreviousIsDisabled = (): boolean => {
+        return (repositories.queryParams.page === 1);
+    };
+
     const handlePreviousPage = (): void => {
         if (repositories.queryParams.page > 1) {
-            const page: number =  repositories.queryParams.page - 1;
+            const page: number = repositories.queryParams.page - 1;
             dispatch(getRepositories({...repositories.queryParams, page}));
             dispatch(setPageParam(page));
         }
     };
 
+    const checkIfNextIsDisabled = (): boolean => {
+        return !((repositories.totalCount / repositories.queryParams.perPage > repositories.queryParams.page)
+            && (repositories.queryParams.page < Math.ceil(1000 / repositories.queryParams.perPage)));
+    };
+
     const handleNextPage = (): void => {
-        const page: number =  repositories.queryParams.page + 1;
+        const page: number = repositories.queryParams.page + 1;
         dispatch(getRepositories({...repositories.queryParams, page}));
         dispatch(setPageParam(page));
     };
@@ -41,8 +50,9 @@ const HomePage: React.FC = (): JSX.Element => {
                 <>
                     <Table headers={['Name', 'Owner', 'Stars', 'Created at']}
                            bodies={repositories.elements.map((element: RepositoriesInformation) => [element.name, element.owner, element.stars, element.createdAt])}
-                           currentPage={repositories.queryParams.page}
+                           isPreviousDisabled={checkIfPreviousIsDisabled()}
                            previousPage={handlePreviousPage}
+                           isNextDisabled={checkIfNextIsDisabled()}
                            nextPage={handleNextPage}/>
                 </>
             }

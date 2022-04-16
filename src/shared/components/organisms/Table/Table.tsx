@@ -7,12 +7,13 @@ import TableNavigation from '../../molecules/TableNavigation/TableNavigation';
 interface TableProps {
     headers: string[],
     bodies: string[][],
-    currentPage: number,
+    isPreviousDisabled: boolean
     previousPage: Function,
+    isNextDisabled: boolean,
     nextPage: Function
 }
 
-const Table: React.FC<TableProps> = ({headers, bodies, currentPage, previousPage, nextPage}: TableProps): JSX.Element => {
+const Table: React.FC<TableProps> = ({headers, bodies, isPreviousDisabled, previousPage, isNextDisabled, nextPage}: TableProps): JSX.Element => {
     return (
         <>
             <TableStyled>
@@ -24,7 +25,7 @@ const Table: React.FC<TableProps> = ({headers, bodies, currentPage, previousPage
                                                                              rowIndex={index} cells={elements}/>)}
                 </tbody>
             </TableStyled>
-            <TableNavigation previousIsDisabled={(currentPage === 1)} previousPage={previousPage} nextIsDisabled={!(bodies.length === 30)} nextPage={nextPage}/>
+            <TableNavigation isPreviousDisabled={isPreviousDisabled} previousPage={previousPage} isNextDisabled={isNextDisabled} nextPage={nextPage}/>
         </>
     );
 };

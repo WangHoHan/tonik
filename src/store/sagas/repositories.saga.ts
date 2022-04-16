@@ -8,6 +8,7 @@ import {LATEST_REPOSITORIES_REQUEST} from '../../constants/localStorageKeys';
 import {RepositoriesQueryParams} from '../../intrafaces/RepositoriesQueryParams';
 import {createRepositoriesSearchQuery, getRepositoriesQueryParamsFromUrl} from '../../utils/githubQueries';
 import {RepositoriesInformation} from '../../intrafaces/RepositoriesInformation';
+import {RepositoriesCacheEntry} from '../../intrafaces/RepositoriesCacheEntry';
 import {readFromCache, removeFromCache, writeToCache} from '../../utils/cache';
 
 const fetchRepositories = (options: { url: string }): Promise<any> => {
@@ -36,7 +37,13 @@ function* initRepositoriesWorker(props: AnyAction): Generator<CallEffect | PutEf
                     type: repositoriesActionTypes.SET_REPOSITORIES_QUERY_PARAMS,
                     payload: repositoriesQueryParams
                 });
-                const elements: RepositoriesInformation[] = JSON.parse(repositoriesCache);
+                const repositoriesCacheEntry: RepositoriesCacheEntry = JSON.parse(repositoriesCache);
+                const totalCount: number = repositoriesCacheEntry.totalCount;
+                yield put({
+                    type: repositoriesActionTypes.SET_TOTAL_COUNT,
+                    payload: totalCount
+                });
+                const elements: RepositoriesInformation[] = repositoriesCacheEntry.repositoriesInformationList;
                 yield put({
                     type: repositoriesActionTypes.SET_REPOSITORIES,
                     payload: elements
@@ -58,6 +65,11 @@ function* initRepositoriesWorker(props: AnyAction): Generator<CallEffect | PutEf
             const url: string = GITHUB_SEARCH_REPOSITORIES_INIT_URL;
             const response: any = yield call(fetchRepositories, {url});
             const repositories: [] = response.data.items;
+            const totalCount: number = response.data.total_count;
+            yield put({
+                type: repositoriesActionTypes.SET_TOTAL_COUNT,
+                payload: totalCount
+            });
             const elements: RepositoriesInformation[] = repositories.map((repositoriesDataItem: any) => {
                 const element: RepositoriesInformation = {
                     name: repositoriesDataItem.full_name,
@@ -76,7 +88,8 @@ function* initRepositoriesWorker(props: AnyAction): Generator<CallEffect | PutEf
                 type: repositoriesActionTypes.SET_REPOSITORIES,
                 payload: elements
             });
-            writeToCache(url, JSON.stringify(elements));
+            const repositoriesCacheEntry: RepositoriesCacheEntry = {repositoriesInformationList: elements, totalCount};
+            writeToCache(url, JSON.stringify(repositoriesCacheEntry));
             writeToCache(LATEST_REPOSITORIES_REQUEST, url);
         } catch (error: any) {
             yield put({
@@ -100,7 +113,13 @@ function* repositoriesWorker(props: AnyAction): Generator<CallEffect | PutEffect
         const repositoriesCache: string | null = readFromCache(url);
         if (repositoriesCache) {
             try {
-                const elements: RepositoriesInformation[] = JSON.parse(repositoriesCache);
+                const repositoriesCacheEntry: RepositoriesCacheEntry = JSON.parse(repositoriesCache);
+                const totalCount: number = repositoriesCacheEntry.totalCount;
+                yield put({
+                    type: repositoriesActionTypes.SET_TOTAL_COUNT,
+                    payload: totalCount
+                });
+                const elements: RepositoriesInformation[] = repositoriesCacheEntry.repositoriesInformationList;
                 yield put({
                     type: repositoriesActionTypes.SET_REPOSITORIES,
                     payload: elements
@@ -119,6 +138,11 @@ function* repositoriesWorker(props: AnyAction): Generator<CallEffect | PutEffect
             });
             try {
                 const response: any = yield call(fetchRepositories, {url});
+                const totalCount: number = response.data.total_count;
+                yield put({
+                    type: repositoriesActionTypes.SET_TOTAL_COUNT,
+                    payload: totalCount
+                });
                 const repositories: [] = response.data.items;
                 const elements: RepositoriesInformation[] = repositories.map((repositoriesDataItem: any) => {
                     const element: RepositoriesInformation = {
@@ -133,7 +157,8 @@ function* repositoriesWorker(props: AnyAction): Generator<CallEffect | PutEffect
                     type: repositoriesActionTypes.SET_REPOSITORIES,
                     payload: elements
                 });
-                writeToCache(url, JSON.stringify(elements));
+                const repositoriesCacheEntry: RepositoriesCacheEntry = {repositoriesInformationList: elements, totalCount};
+                writeToCache(url, JSON.stringify(repositoriesCacheEntry));
                 writeToCache(LATEST_REPOSITORIES_REQUEST, url);
             } catch (error: any) {
                 yield put({

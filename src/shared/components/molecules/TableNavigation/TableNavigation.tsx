@@ -3,17 +3,17 @@ import React from 'react';
 import Button from '../../atoms/Button/Button';
 
 interface TableNavigationProps {
-    previousIsDisabled: boolean
+    isPreviousDisabled: boolean
     previousPage: Function,
-    nextIsDisabled: boolean
+    isNextDisabled: boolean
     nextPage: Function
 }
 
-const TableNavigation: React.FC<TableNavigationProps> = ({previousIsDisabled, previousPage, nextIsDisabled, nextPage}: TableNavigationProps): JSX.Element => {
+const TableNavigation: React.FC<TableNavigationProps> = ({isPreviousDisabled, previousPage, isNextDisabled, nextPage}: TableNavigationProps): JSX.Element => {
     return (
         <TableNav>
-            <Button text='< Previous page' isDisabled={previousIsDisabled} onClick={previousPage}/>
-            <Button text='Next page >' isDisabled={nextIsDisabled} onClick={nextPage}/>
+            <Button text='< Previous page' isDisabled={isPreviousDisabled} onClick={previousPage}/>
+            <Button text='Next page >' isDisabled={isNextDisabled} onClick={nextPage}/>
         </TableNav>
     );
 };

@@ -2,7 +2,8 @@ import {FEATURE_REPOSITORIES_NAME} from '../../constants';
 import {RepositoriesQueryParams} from '../../../intrafaces/RepositoriesQueryParams';
 import {RepositoriesInformation} from '../../../intrafaces/RepositoriesInformation';
 
-export const actionTypes: { SET_REPOSITORIES_QUERY_PARAMS: string, SET_Q_PARAM: string, SET_PAGE_PARAM: string, INIT_REPOSITORIES: string, GET_REPOSITORIES: string, SET_REPOSITORIES: string, GET_REPOSITORIES_FAIL: string } = {
+export const actionTypes: { SET_TOTAL_COUNT: string, SET_REPOSITORIES_QUERY_PARAMS: string, SET_Q_PARAM: string, SET_PAGE_PARAM: string, INIT_REPOSITORIES: string, GET_REPOSITORIES: string, SET_REPOSITORIES: string, GET_REPOSITORIES_FAIL: string } = {
+    SET_TOTAL_COUNT: `[${FEATURE_REPOSITORIES_NAME}] set total count`,
     SET_REPOSITORIES_QUERY_PARAMS: `[${FEATURE_REPOSITORIES_NAME}] set repositories query params`,
     SET_Q_PARAM: `[${FEATURE_REPOSITORIES_NAME}] set q param`,
     SET_PAGE_PARAM: `[${FEATURE_REPOSITORIES_NAME}] set p param`,
@@ -11,6 +12,11 @@ export const actionTypes: { SET_REPOSITORIES_QUERY_PARAMS: string, SET_Q_PARAM: 
     SET_REPOSITORIES: `[${FEATURE_REPOSITORIES_NAME}] set repositories`,
     GET_REPOSITORIES_FAIL: `[${FEATURE_REPOSITORIES_NAME}] get repositories fail`
 };
+
+export const setTotalCount = (payload: number): { payload: number, type: string } => ({
+    type: actionTypes.SET_TOTAL_COUNT,
+    payload
+});
 
 export const setQueryParams = (payload: RepositoriesQueryParams): { payload: RepositoriesQueryParams, type: string } => ({
     type: actionTypes.SET_Q_PARAM,
