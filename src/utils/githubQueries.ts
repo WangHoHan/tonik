@@ -2,7 +2,7 @@ import {RepositoriesQueryParams} from '../intrafaces/RepositoriesQueryParams';
 
 export const createRepositoriesSearchQuery = (repositoriesQueryParams: RepositoriesQueryParams): string => {
     if (repositoriesQueryParams.q) {
-        return `q=${repositoriesQueryParams.q}${repositoriesQueryParams.sort ? `&sort=${repositoriesQueryParams.sort}` : ''}${repositoriesQueryParams.order ? `&order=${repositoriesQueryParams.order}` : ''}${repositoriesQueryParams.perPage ? `&per_page=${repositoriesQueryParams.perPage}` : ''}${repositoriesQueryParams.page ? `&page=${repositoriesQueryParams.page}` : ''}`;
+        return `?q=${repositoriesQueryParams.q}${repositoriesQueryParams.sort ? `&sort=${repositoriesQueryParams.sort}` : '&sort=stars'}${repositoriesQueryParams.order ? `&order=${repositoriesQueryParams.order}` : '&order=desc'}${repositoriesQueryParams.perPage ? `&per_page=${repositoriesQueryParams.perPage}` : '&per_page=30'}${repositoriesQueryParams.page ? `&page=${repositoriesQueryParams.page}` : '&page=1'}`;
     }
     return '';
 };
