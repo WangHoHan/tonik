@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const TableNav = styled.nav`
   align-items: center;
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   justify-content: space-between;
   margin-top: 1rem;
 `;
