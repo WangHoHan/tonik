@@ -1,12 +1,19 @@
-import {TableStyled} from './Table.styled';
+import {TableSortingOptions, SortingOptions, TableStyled} from './Table.styled';
 import React from 'react';
-import TableRow from '../../molecules/TableRow/TableRow';
 import {TableRowType} from '../../../../constants/enums';
+import Select from '../../molecules/Select/Select';
+import TableRow from '../../molecules/TableRow/TableRow';
 import TableNavigation from '../../molecules/TableNavigation/TableNavigation';
 
 interface TableProps {
     headers: string[],
     bodies: string[][],
+    sortId: string,
+    sorts: string[],
+    orderId: string,
+    orders: string[],
+    onSortChange: Function,
+    onOrderChange: Function,
     isPreviousDisabled: boolean
     previousPage: Function,
     isNextDisabled: boolean,
@@ -16,9 +23,16 @@ interface TableProps {
     changePerPage: Function
 }
 
-const Table: React.FC<TableProps> = ({headers, bodies, isPreviousDisabled, previousPage, isNextDisabled, nextPage, isChangePerPageDisabled, pageNumber, changePerPage}: TableProps): JSX.Element => {
+const Table: React.FC<TableProps> = ({headers, bodies, sortId, sorts, orderId, orders, onSortChange, onOrderChange, isPreviousDisabled, previousPage, isNextDisabled, nextPage, isChangePerPageDisabled, pageNumber, changePerPage}: TableProps): JSX.Element => {
     return (
         <>
+            <TableSortingOptions>
+                <div>Sorting options</div>
+                <SortingOptions>
+                    <Select selectId={sortId} options={sorts} onChange={onSortChange}/>
+                    <Select selectId={orderId} options={orders} onChange={onOrderChange}/>
+                </SortingOptions>
+            </TableSortingOptions>
             <TableStyled>
                 <thead>
                 <TableRow type={TableRowType.HEADER} rowIndex={null} cells={headers}/>

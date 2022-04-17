@@ -24,9 +24,9 @@ const TableNavigation: React.FC<TableNavigationProps> = ({isPreviousDisabled, pr
             </PageNumber>
             <PerPage>
                 <span>Per page</span>
-                <Button text='5' isDisabled={isChangePerPageDisabled(5)} onClick={() => {changePerPage(5)}} width='50px'/>
-                <Button text='10' isDisabled={isChangePerPageDisabled(10)} onClick={() => {changePerPage(10)}} width='50px'/>
-                <Button text='20' isDisabled={isChangePerPageDisabled(20)} onClick={() => {changePerPage(20)}} width='50px'/>
+                <Button text='5' isDisabled={isChangePerPageDisabled(5)} onClick={() => changePerPage(5)} width='50px'/>
+                <Button text='10' isDisabled={isChangePerPageDisabled(10)} onClick={() => changePerPage(10)} width='50px'/>
+                <Button text='20' isDisabled={isChangePerPageDisabled(20)} onClick={() => changePerPage(20)} width='50px'/>
             </PerPage>
         </TableNav>
     );

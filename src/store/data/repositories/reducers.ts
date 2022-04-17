@@ -7,7 +7,7 @@ const initState: { totalCount: number, queryParams: RepositoriesQueryParams, ele
     queryParams: {
         q: '',
         sort: 'stars',
-        order: 'desc',
+        order: 'asc',
         perPage: 20,
         page: 1
     },
@@ -33,6 +33,22 @@ const reducer = (state: { totalCount: number, queryParams: RepositoriesQueryPara
                 queryParams: {
                     ...state.queryParams,
                     q: action.payload
+                }
+            };
+        case actionTypes.SET_SORT_PARAM:
+            return {
+                ...state,
+                queryParams: {
+                    ...state.queryParams,
+                    sort: action.payload
+                }
+            };
+        case actionTypes.SET_ORDER_PARAM:
+            return {
+                ...state,
+                queryParams: {
+                    ...state.queryParams,
+                    order: action.payload
                 }
             };
         case actionTypes.SET_PAGE_PARAM:
