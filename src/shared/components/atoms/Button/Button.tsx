@@ -6,11 +6,12 @@ interface ButtonParams {
     text: string
     isDisabled: boolean
     onClick: Function
+    width?: string
 }
 
-const Button: React.FC<ButtonParams> = ({text, isDisabled, onClick}: ButtonParams): JSX.Element => {
+const Button: React.FC<ButtonParams> = ({text, isDisabled, onClick, width}: ButtonParams): JSX.Element => {
     return (
-        <ButtonStyled  buttonType={isDisabled ? ButtonType.DISABLED : ButtonType.ENABLED} disabled={isDisabled} onClick={() => onClick()}>
+        <ButtonStyled  buttonType={isDisabled ? ButtonType.DISABLED : ButtonType.ENABLED} disabled={isDisabled} onClick={() => onClick()} width={width}>
             {text}
         </ButtonStyled>
     );

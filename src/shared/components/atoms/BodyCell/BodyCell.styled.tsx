@@ -5,6 +5,6 @@ interface TDStyledProps {
 }
 
 export const TDStyled = styled.td`
-  padding: 1rem;
+  padding:  0 1rem;
   width: ${(props: TDStyledProps) => props.width};
 `;

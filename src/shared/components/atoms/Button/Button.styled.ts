@@ -1,8 +1,9 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import {ButtonType} from '../../../../constants/enums';
 
 interface ButtonStyledProps {
     buttonType: ButtonType.ENABLED | ButtonType.DISABLED
+    width?: string
 }
 
 export const ButtonStyled = styled.button<ButtonStyledProps>`
@@ -16,7 +17,9 @@ export const ButtonStyled = styled.button<ButtonStyledProps>`
   text-decoration: none;
   text-shadow: 1px 1px black;
   transition: 0.4s;
-  width: 150px;
+  ${props => props.width && css`
+    width: ${(props: ButtonStyledProps) => props.width};
+  `};
   
   &:hover {
     background-color: ${(props: ButtonStyledProps) => (props.buttonType === ButtonType.ENABLED) ? 'plum' : 'grey'};

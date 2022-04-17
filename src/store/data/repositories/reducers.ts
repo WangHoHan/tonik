@@ -8,7 +8,7 @@ const initState: { totalCount: number, queryParams: RepositoriesQueryParams, ele
         q: '',
         sort: 'stars',
         order: 'desc',
-        perPage: 30,
+        perPage: 20,
         page: 1
     },
     elements: [],

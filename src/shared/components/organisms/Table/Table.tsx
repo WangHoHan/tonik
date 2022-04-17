@@ -10,10 +10,13 @@ interface TableProps {
     isPreviousDisabled: boolean
     previousPage: Function,
     isNextDisabled: boolean,
-    nextPage: Function
+    nextPage: Function,
+    isChangePerPageDisabled: Function,
+    pageNumber: number,
+    changePerPage: Function
 }
 
-const Table: React.FC<TableProps> = ({headers, bodies, isPreviousDisabled, previousPage, isNextDisabled, nextPage}: TableProps): JSX.Element => {
+const Table: React.FC<TableProps> = ({headers, bodies, isPreviousDisabled, previousPage, isNextDisabled, nextPage, isChangePerPageDisabled, pageNumber, changePerPage}: TableProps): JSX.Element => {
     return (
         <>
             <TableStyled>
@@ -25,7 +28,7 @@ const Table: React.FC<TableProps> = ({headers, bodies, isPreviousDisabled, previ
                                                                              rowIndex={index} cells={elements}/>)}
                 </tbody>
             </TableStyled>
-            <TableNavigation isPreviousDisabled={isPreviousDisabled} previousPage={previousPage} isNextDisabled={isNextDisabled} nextPage={nextPage}/>
+            <TableNavigation isPreviousDisabled={isPreviousDisabled} previousPage={previousPage} isNextDisabled={isNextDisabled} nextPage={nextPage} isChangePerPageDisabled={isChangePerPageDisabled} pageNumber={pageNumber} changePerPage={changePerPage}/>
         </>
     );
 };
