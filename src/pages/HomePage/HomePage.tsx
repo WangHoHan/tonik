@@ -105,14 +105,15 @@ const HomePage: React.FC = (): JSX.Element => {
     const handlePreviousPage = (): void => {
         if (localPage > 1) {
             setLocalPage(localPage - 1);
+            writeToCache(REPOSITORIES_LOCAL_NUMBER_OF_PAGE, (localPage - 1).toString());
         } else {
             if (repositories.queryParams.page > 1) {
                 const page: number = repositories.queryParams.page - 1;
                 dispatch(getRepositories({...repositories.queryParams, page}));
                 dispatch(setPageParam(page));
+                writeToCache(REPOSITORIES_LOCAL_NUMBER_OF_PAGE, '1');
             }
         }
-        writeToCache(REPOSITORIES_LOCAL_NUMBER_OF_PAGE, (localPage - 1).toString());
     };
 
     const checkIfNextIsDisabled = (): boolean => {
@@ -123,13 +124,14 @@ const HomePage: React.FC = (): JSX.Element => {
     const handleNextPage = (): void => {
         if (localPage < 20 / noPerPage) {
             setLocalPage(localPage + 1);
+            writeToCache(REPOSITORIES_LOCAL_NUMBER_OF_PAGE, (localPage + 1).toString());
         } else {
             const page: number = repositories.queryParams.page + 1;
             dispatch(getRepositories({...repositories.queryParams, page}));
             dispatch(setPageParam(page));
             setLocalPage(1);
+            writeToCache(REPOSITORIES_LOCAL_NUMBER_OF_PAGE, '1');
         }
-        writeToCache(REPOSITORIES_LOCAL_NUMBER_OF_PAGE, (localPage + 1).toString());
     };
 
     const checkIfChangePerPageIsDisabled = (perPageNumber: number): boolean => {

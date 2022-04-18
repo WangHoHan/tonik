@@ -7,7 +7,7 @@ export const SelectStyled = styled.select`
   color: white;
   font-size: 1rem;
   padding: 0.4rem 1rem;
-  text-align: center;
+  text-align-last: center;
   text-shadow: 1px 1px black;
   width: 150px;
 
