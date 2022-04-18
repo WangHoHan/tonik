@@ -30,6 +30,12 @@ describe('PageNotFound', (): void => {
         expect(button).toBeInTheDocument();
     });
 
+    it('should render search bar disabled', (): void => {
+        render(<MockPageNotFound/>);
+        const searchBar: HTMLElement = screen.getByPlaceholderText(/search for github repositories/i);
+        expect(searchBar).toBeDisabled();
+    });
+
     it('should move to HomePage on Back to Home Page click', (): void => {
         render(<MockPageNotFound/>);
         const button: HTMLElement = screen.getByText(/back to home page/i);
