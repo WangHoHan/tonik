@@ -1,6 +1,6 @@
 import {fireEvent, render, screen} from '@testing-library/react';
-import {Routes, Route, Navigate} from 'react-router-dom';
-import React, {useEffect} from "react";
+import {Routes, Route} from 'react-router-dom';
+import React from "react";
 import {Provider} from 'react-redux';
 import {store} from '../../../../store/store';
 import {BrowserRouter} from 'react-router-dom';
@@ -9,7 +9,6 @@ import HomePage from '../../../HomePage/HomePage';
 import PageNotFound from '../PageNotFound';
 
 const MockPageNotFound: React.FC = (): JSX.Element => {
-
     return (
         <Provider store={store}>
             <Navigation/>
@@ -36,11 +35,11 @@ describe('PageNotFound', (): void => {
         expect(searchBar).toBeDisabled();
     });
 
-    it('should move to HomePage on Back to Home Page click', (): void => {
+    it('should move to HomePage on Back to Home Page click', async (): Promise<any> => {
         render(<MockPageNotFound/>);
         const button: HTMLElement = screen.getByText(/back to home page/i);
         fireEvent.click(button);
-        const loading: HTMLElement = screen.getByText(/loading/i);
-        expect(loading).toBeInTheDocument();
+        const sortingOptions: HTMLElement = await screen.findByText(/sorting options/i);
+        expect(sortingOptions).toBeInTheDocument();
     });
 });

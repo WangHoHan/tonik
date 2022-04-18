@@ -32,4 +32,22 @@ describe('TableNavigation', (): void => {
         const nextPage: HTMLElement = screen.getByText(/next page >/i);
         expect(nextPage).toBeDisabled();
     });
+
+    it('should display page number properly', (): void => {
+        render(<TableNavigation isPreviousDisabled={false} previousPage={() => {}} isNextDisabled={false} nextPage={() => {}} isChangePerPageDisabled={() => false} pageNumber={6} changePerPage={() => {}}/>);
+        const pageNumber: HTMLElement = screen.getByText(/6/i);
+        expect(pageNumber).toBeInTheDocument();
+    });
+
+    it('should display per page 5 enabled', (): void => {
+        render(<TableNavigation isPreviousDisabled={false} previousPage={() => {}} isNextDisabled={false} nextPage={() => {}} isChangePerPageDisabled={() => false} pageNumber={1} changePerPage={() => {}}/>);
+        const perPageFive: HTMLElement = screen.getByText(/5/i);
+        expect(perPageFive).toBeEnabled();
+    });
+
+    it('should display per page 5 disabled', (): void => {
+        render(<TableNavigation isPreviousDisabled={false} previousPage={() => {}} isNextDisabled={false} nextPage={() => {}} isChangePerPageDisabled={() => true} pageNumber={1} changePerPage={() => {}}/>);
+        const perPageFive: HTMLElement = screen.getByText(/5/i);
+        expect(perPageFive).toBeDisabled();
+    });
 });
